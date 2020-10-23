@@ -4,14 +4,18 @@ import ContactCard from './contactCard';
 import ContactForm from './contactForm';
 
 export default function ContactList () {
-  let [data, setData] = useState({ id: 0, name: '', email: '', company: '', office: '' })
+  const dataDefault = { id: 0, name: '', email: '', company: '', office: '' };
+  let [data, setData] = useState(dataDefault);
   let [lista, setList] = useState(getContacts());
 
   let updateLista = (item) => lista.map((i) => i.id === item.id ? item : i);
 
   let updateItem = (item) => setData(item);
   
-  let deleteItem = (item) => setList(lista.filter((i) => i.id !== item.id));
+  let deleteItem = (item) => {
+    setData(dataDefault);
+    setList(lista.filter((i) => i.id !== item.id));
+  };
 
   let addItem = (item, id) => id === 0 ? setList([...lista, item]) : setList(updateLista(item));
 
@@ -22,7 +26,7 @@ export default function ContactList () {
   });
 
   return (
-    <div className="w-6/12">
+    <div className="mx-auto">
       <ContactForm save={addItem} data={data} />
       <div> {card} </div>
     </div>
